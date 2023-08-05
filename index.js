@@ -20,6 +20,19 @@ function Book (title, author, pages, read ) {
     this.bookRead = read;
 }
 
+
+function read(event, book ) {
+    const button = event.target
+    if (button.innerText === 'Not Read') {
+        button.innerText = 'Read';
+        // book.read = true;
+    } else if (button.innerText === 'Read') {
+        button.innerText = 'Not Read';
+        // book.read = false`
+    }
+}
+
+
 function addBookToLibrary () {
     const listOfBooks = document.getElementById('book');
     listOfBooks.setAttribute('id','list')
@@ -33,8 +46,6 @@ library.forEach((book) => {
         title.textContent = book.title;
         card.appendChild(title);
 
-       
-
         const author = document.createElement('p');
         author.textContent = `Author : ${book.author}`;
         card.appendChild(author);
@@ -43,9 +54,12 @@ library.forEach((book) => {
         pages.textContent = `Pages read : ${book.pages}`;
         card.appendChild(pages)
 
-        const read = document.createElement('p');
-        read.textContent = `Read`
-        card.appendChild(read)
+        const readIt = document.createElement('button')
+        readIt.textContent = 'Read'
+        readIt.addEventListener('click', function (event){
+            read(event, book)});
+        readIt.addEventListener('click', function(event){event.preventDefault()});
+        card.appendChild(readIt);
 
         listOfBooks.appendChild(card);
     });
@@ -59,10 +73,7 @@ const newBook = () => {
 
     newBookButton.addEventListener('click', createForm);
 
-
 }
-
-
 
 function createForm() {
     const formBook = document.querySelector('#formBook');
@@ -94,14 +105,20 @@ function createForm() {
     pagesInput.setAttribute('placeholder', 'No of pages read.')
     formBook.appendChild(pagesInput);
 
-    const readLabel = document.createElement('label');
-    readLabel.textContent = 'Pages read'
-    formBook.appendChild(readLabel);
+    const haveYouReadIt = document.createElement('button');
+    haveYouReadIt.innerText = 'Read' 
+    haveYouReadIt.addEventListener('click', function (event){
+        read(event)});
+    haveYouReadIt.addEventListener('click', function(event){event.preventDefault()});
+    formBook.appendChild(haveYouReadIt);
 
-    const pagesInput  = document.createElement('input');
-    pagesInput.setAttribute('type', 'number');
-    pagesInput.setAttribute('placeholder', 'No of pages read.')
-    formBook.appendChild(pagesInput);
+    const submit = document.createElement('input')
+    submit.setAttribute('type', 'Submit');
+    submit.setAttribute('value', 'Submit');
+    submit.addEventListener('click', function(event){event.preventDefault()});
+    formBook.appendChild(submit);
+
 }
 
 newBook();
+// createForm()
